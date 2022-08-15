@@ -9,6 +9,6 @@ Every folder will be a different type of data processing and will have each of t
   * Resources if you want to change any part of the code such as package documentation 
   
 * Information about the code including 
-  * programming language 
-  * file formats for each code
+  * Programming language 
+  * File formats for each code
   * How to use each of the file types 
