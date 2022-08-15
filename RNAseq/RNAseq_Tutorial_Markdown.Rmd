@@ -1,0 +1,16 @@
+---
+title: "RNAseq_Tutorial"
+output: html_document
+date: "2022-08-15"
+---
+This is the documentation for the RNAseq tutorial, all in one place. 
+First things first, this is meant for you to be able to run with minimal assistance, 
+but if you need assistance, let me know. 
+
+Each section of code will have a little play button to run that section individually. 
+There is also an option on the top of this screen saying "run" with a green arrow. You 
+can run the whole document with the options in that, should you choose. 
+
+Each step will have a lot of documentation as well as where you need to add your own 
+information so that it runs correctly. 
+
