@@ -1,0 +1,4 @@
+Tumor/ Normal,Tissue,Treatment,Age,Stage,Sample
+Serous_EOC,Serous_EOC,Control,61,4B,SRR10912052
+Serous_EOC,Serous_EOC,Platinum,61,4B,SRR10912053
+Serous_EOC,Serous_EOC,Control,67,4,SRR10912054
