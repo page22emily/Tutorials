@@ -33,7 +33,7 @@ And this is what is going to happen in this code:
 
 Now let's do the coding!
 
-This partyou will only need to do once to download everything: 
+This part you will only need to do once to download everything: 
 
 ```{r}
 if (!require("BiocManager", quietly = TRUE))
