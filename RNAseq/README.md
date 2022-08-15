@@ -1,4 +1,4 @@
-# Bulk RNAseq tutorial 
+# Bulk RNAseq Tutorial 
 
 This folder is for bulk RNAseq tutorials
 
