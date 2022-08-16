@@ -3,13 +3,15 @@
 This folder is for bulk RNAseq tutorials
 
 ### Steps: 
-1) Salmon: RNAseq_tutorial_salmon.sh 
-2) Tximport and DESeq2: RNAseq_Tutorial_Markdown.Rmd 
+1) Download FASTQs for the samples you want to analyze
+2) Salmon: RNAseq_tutorial_salmon.sh 
+3) Tximport and DESeq2: RNAseq_Tutorial_Markdown.Rmd 
 
 ### Before you use this code, you will need: 
 * FASTQ files. 
   * They should be in this syntax: name_1.fastq.gz and name_2.fastq.gz 
   * There should be 2 FASTQs for every sample you have
+  * You can put these on Cheaha/HPC directly in most cases
 * Reference files: in the References folder in this folder
 * You will need meta data files; examples of those are all in the references folder 
 
