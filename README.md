@@ -1,4 +1,4 @@
-# Tutorials
+# Tutorials and Templates
 This repo is for all of the base templates/ tutorials for processing Genomic Data 
 
 Every folder will be a different type of data processing and will have each of the following contained in the README file:
