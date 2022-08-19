@@ -217,7 +217,7 @@ q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitte
 q <- q + labs(y = "Normalized Counts ", title = "Expression of CHANGE THIS GENE NAME")
 q
 ```
-```
+
 
 
 
