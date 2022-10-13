@@ -18,6 +18,7 @@ This folder is for the code and annotations for analyzing bulk RNAseq data
 
 ### Package Documentation:
 * FASTQC: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
+* Salmon: https://salmon.readthedocs.io/en/latest/salmon.html
 * tximport: https://bioconductor.org/packages/release/bioc/html/tximport.html
 * DESeq2: https://bioconductor.org/packages/release/bioc/html/DESeq2.html
 * Mike Love's Guide to RNAseq: https://bioconductor.org/packages/release/workflows/vignettes/rnaseqGene/inst/doc/rnaseqGene.html
