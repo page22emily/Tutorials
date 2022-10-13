@@ -4,9 +4,15 @@ This folder is for the code and annotations for analyzing bulk RNAseq data
 
 ### Steps: 
 1) Download FASTQs for the samples you want to analyze
+     * This is done with whatever instructions you are given from the company/ source.
+     * For command line users, there is usually a "wget" command option
 2) FASTQC to check for quality control of the reads that you have 
+     * Step 1 Code: Command Line: FASTQC_template.sh 
+     * Step 2 Code: R for the report: FASTQC_Template.Rmd 
 3) Salmon: RNAseq_tutorial_salmon.sh 
+     * Code: RNAseq_tutorial_salmon.sh 
 4) Tximport and DESeq2: RNAseq_Tutorial_Markdown.Rmd 
+     * Code: RNAseq_Tutorial_Markdown.sh 
 
 ### Before you use this code, you will need: 
 * FASTQ files. 
