@@ -1,0 +1,118 @@
+---
+title: "FASTQC_Template"
+output: html_document
+date: "2022-10-13"
+---
+Purpose: to do quality control checks on the raw fastq files and determine what areas could be problematic
+Source for Template: https://devonderaad.github.io/RADstackshelpR/articles/quality.control.vignette.html
+This is not written by me. I have edited this a bit but the loops are fantastic. 
+
+#this step sets up the packages you need and only needs to be done once 
+```{r}
+install.packages(c("gridExtra", knitr, ggplot2))
+install.packages("fastqcr")
+#must run this if fastqc is not already installed locally
+fastqc_install()
+```
+
+```{r}
+library(gridExtra)
+library(knitr)
+library(ggplot2)
+library(fastqcr)
+```
+
+##things that need to happen here: 
+### make a directory for all the fastqs you want to analyze and set that path 
+### make a directory (it will be empty) for where all the qc file will be/ where you want them to be 
+### the fastqc step here only needs to be run once; comment this step out if you need to edits the plots only 
+### you can also do this step in a HPC and it will be significantly faster 
+```{r}
+#fq.dir<-"~/CHANGE THIS PATHWAY TO WHERE THE FASTQS ARE THAT YOU WANT THE QCS/"
+#qc.dir<-"~/CHANGE THIS PATHWAY TO WHERE YOU WANT THE QC FILES TO BE/"
+fq.dir<-"~/Desktop/Test/FASTQ/"
+qc.dir<-"~/Desktop/Test/QC/"
+
+fastqc(fq.dir = fq.dir, # FASTQ files directory
+      qc.dir = qc.dir, # Results directory
+       threads = 4                    # Number of threads
+      )
+```
+
+#ONCE YOU GET TO HERE YOU DO NOT NEED TO EDIT 
+## here is where the steps for the samples begin and wgere you will make visualizations and tables 
+## you can instead set the qc.dir to whatever it was on a HPC. 
+```{r}
+samps<-list.files(qc.dir, full.names = T, pattern = "*.zip")
+
+for (i in samps){
+  #read info for given sample from the .zip file generated in the previous step
+  samp.info <- qc_read(i)
+  #open blank list to hold qc visualizations for the given sample
+  plot<-list()
+  #do qc for the given sample
+  plot[[1]]<-qc_plot(samp.info, "Basic statistics")
+  plot[[2]]<-qc_plot(samp.info, "Per sequence quality scores")
+  plot[[3]]<-qc_plot(samp.info, "Sequence duplication levels")
+  #visualize tables
+  print(paste0("QC results for sample ", gsub(".*/", "", i)))
+
+  cat('\n')
+
+  print(kable(plot[[1]]))
+
+  cat('\n')
+
+  #visualize plots
+  grid.arrange(plot[[2]],plot[[3]],
+               ncol=2)
+  
+  #clear plot to hold info for next sample
+  rm(plot)
+}
+```
+
+
+```{r}
+#aggregate the reports by pointing this function to the folder holding output of fastqc()
+qc <- qc_aggregate(qc.dir, progressbar = F)
+
+#stats per sample
+knitr::kable(qc_stats(qc))
+```
+
+```{r}
+#save stats info as an object
+stats.info<-qc_stats(qc)
+#make tot.seq numeric
+stats.info$tot.seq<-as.numeric(stats.info$tot.seq)
+
+#make histogram of number of sequence reads for each sample
+ggplot(stats.info, aes(x=tot.seq))+
+              geom_histogram(color="black", fill="white", bins=20)+
+              geom_vline(aes(xintercept=median(tot.seq)), color = "red")+
+              geom_vline(aes(xintercept=median(tot.seq)*.1), color = "red", lty=14)+
+              theme_classic()+
+              xlab("Number of sequencing reads")
+```
+
+
+```{r}
+#solid red line = median sample value
+#dashed red line = 10% of median sample value
+ggplot(stats.info, aes(x=tot.seq))+
+              geom_histogram(color="black", fill="white", bins=200)+
+              geom_vline(aes(xintercept=median(tot.seq)), color = "red")+
+              geom_vline(aes(xintercept=median(tot.seq)*.1), color = "red", lty=14)+
+              theme_classic()+
+              xlab("Number of sequencing reads")
+```
+
+```{r}
+#show me the samples that have less than 10% of the number of reads as the median sample from this experiment (these should be dropped immediately)
+print(paste("Median sample contains", median(stats.info$tot.seq), "reads. The following samples contain less than", median(stats.info$tot.seq)*.1, "reads (10% of the median), and should likely be dropped"))
+```
+
+```{r}
+knitr::kable(stats.info[stats.info$tot.seq < median(stats.info$tot.seq)*.1,])
+```
