@@ -53,19 +53,28 @@ library(DESeq2)
 ```
 
 The files in this next step can be found in a zip folder on Github called
+
 These next steps are for tximport so that we can get the counts in the right format for DESeq2 
+USE THIS FOR WHEN YOU HAVE INPUT FROM SALMON OR STAR 
 ```{r message= FALSE, warning= FALSE, echo=FALSE}
-txdb <- makeTxDbFromGFF(file="CHANGE_THIS_PATH/gencode.v19.annotation.gtf") #this is a file path. Add the path for this file name here
+#if you need to make this, use this code. You only need to do this once. 
+txdb <-  makeTxDbFromGF("~/Desktop/Lab_RNASeq_Tutorial/gencode.v19.annotation.gtf_withproteinids.TxDb")
 saveDb(x=txdb, file = "gencode.v19.annotation.gtf_withproteinids.TxDb") #this is the name of the file. Don't touch it
+k <- keys(txdb, keytype = "TXNAME")
+tx2gene <- select(txdb, k, "GENEID", "TXNAME")
+```
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+txdb <- loadDb("~/Desktop/Lab_RNASeq_Tutorial/gencode.v19.annotation.gtf_withproteinids.TxDb")
 k <- keys(txdb, keytype = "TXNAME")
 tx2gene <- select(txdb, k, "GENEID", "TXNAME")
 ```
 
 
 ```{r message= FALSE, warning= FALSE, echo=FALSE}
-dir <- "CHANGE_THIS_PATH/quants"  #this is a path that you will change. This is the quants folder from Salmon that should be locally on your computer 
-samples <- read.csv(file= "CHANGE_THIS_PATH/sample_info_tximport.csv") #CSV is a metadata file. A sample of this file is on github 
-files <- file.path(dir, samples$SRR, "quant.sf")
+dir <- "~/Desktop/Lab_RNASeq_Tutorial/quants/"  #this is a path that you will change. This is the quants folder from Salmon that should be locally on your computer 
+samples <- read.csv(file= "~/Desktop/Lab_RNASeq_Tutorial/meta_data.csv") #CSV is a metadata file. A sample of this file is on github 
+files <- file.path(dir, samples$Sample, "quant.sf")
 all(file.exists(files))
 ```
 
@@ -75,11 +84,12 @@ txi <- tximport(files, type = "salmon", tx2gene= tx2gene, ignoreAfterBar= TRUE)
 names(txi)
 ```
 
+
 This is for setting up the meta data and DESeq2 object so that you can do your analysis 
 ```{r message= FALSE, warning= FALSE, echo=FALSE}
-sample_meta_data <- read.csv(file= "CHANGE_THIS_PATH/meta.csv") #this is a DIFFERENT meta data file. Example in github. Include any information in this that you want to compare between samples
-sampleFiles <- samples$SRR
-sampleCondition <- sample_meta_data$Treatment  #this one you can change to whatever column you want in your meta data for comparisons 
+sample_meta_data <- read.csv(file= "~/Desktop/Lab_RNASeq_Tutorial/meta_data.csv") #this is a DIFFERENT meta data file. Example in github. Include any information in this that you want to compare between samples
+sampleFiles <- samples$Sample
+sampleCondition <- sample_meta_data$Tumor..Normal  #this one you can change to whatever column you want in your meta data for comparisons 
 sampleTable <- data.frame(sampleName = sampleFiles,
                           fileName = sampleFiles,
                           condition = sampleCondition)
