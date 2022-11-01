@@ -65,6 +65,9 @@ tx2gene <- select(txdb, k, "GENEID", "TXNAME")
 ```
 
 ```{r message= FALSE, warning= FALSE, echo=FALSE}
+unzip("~/Desktop/Lab_RNASeq_Tutorial/gencode.v19.annotation.gtf_withproteinids.TxDb.zip", files = NULL, list = FALSE, overwrite = TRUE,
+      junkpaths = FALSE, exdir = "~/Desktop/Lab_RNASeq_Tutorial/", unzip = "internal",
+      setTimes = FALSE)
 txdb <- loadDb("~/Desktop/Lab_RNASeq_Tutorial/gencode.v19.annotation.gtf_withproteinids.TxDb")
 k <- keys(txdb, keytype = "TXNAME")
 tx2gene <- select(txdb, k, "GENEID", "TXNAME")
