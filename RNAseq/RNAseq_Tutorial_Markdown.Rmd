@@ -58,25 +58,26 @@ These next steps are for tximport so that we can get the counts in the right for
 USE THIS FOR WHEN YOU HAVE INPUT FROM SALMON OR STAR 
 ```{r message= FALSE, warning= FALSE, echo=FALSE}
 #if you need to make this, use this code. You only need to do this once. 
-txdb <-  makeTxDbFromGF("~/Desktop/Lab_RNASeq_Tutorial/gencode.v19.annotation.gtf_withproteinids.TxDb")
+txdb <-  makeTxDbFromGF("~/CHANGE PATH/gencode.v19.annotation.gtf_withproteinids.TxDb")
 saveDb(x=txdb, file = "gencode.v19.annotation.gtf_withproteinids.TxDb") #this is the name of the file. Don't touch it
 k <- keys(txdb, keytype = "TXNAME")
 tx2gene <- select(txdb, k, "GENEID", "TXNAME")
 ```
 
 ```{r message= FALSE, warning= FALSE, echo=FALSE}
-unzip("~/Desktop/Lab_RNASeq_Tutorial/gencode.v19.annotation.gtf_withproteinids.TxDb.zip", files = NULL, list = FALSE, overwrite = TRUE,
-      junkpaths = FALSE, exdir = "~/Desktop/Lab_RNASeq_Tutorial/", unzip = "internal",
+#This is for tutorial purposes as well as if the txdb has already been made 
+unzip("~/CHANGE PATH/gencode.v19.annotation.gtf_withproteinids.TxDb.zip", files = NULL, list = FALSE, overwrite = TRUE,
+      junkpaths = FALSE, exdir = "~/CHANGE PATH/", unzip = "internal",
       setTimes = FALSE)
-txdb <- loadDb("~/Desktop/Lab_RNASeq_Tutorial/gencode.v19.annotation.gtf_withproteinids.TxDb")
+txdb <- loadDb("~/CHANGE PATH/gencode.v19.annotation.gtf_withproteinids.TxDb")
 k <- keys(txdb, keytype = "TXNAME")
 tx2gene <- select(txdb, k, "GENEID", "TXNAME")
 ```
 
 
 ```{r message= FALSE, warning= FALSE, echo=FALSE}
-dir <- "~/Desktop/Lab_RNASeq_Tutorial/quants/"  #this is a path that you will change. This is the quants folder from Salmon that should be locally on your computer 
-samples <- read.csv(file= "~/Desktop/Lab_RNASeq_Tutorial/meta_data.csv") #CSV is a metadata file. A sample of this file is on github 
+dir <- "~/CHANGE PATH/quants/"  #this is a path that you will change. This is the quants folder from Salmon that should be locally on your computer 
+samples <- read.csv(file= "~/CHANGE PATH/meta_data.csv") #CSV is a metadata file. A sample of this file is on github 
 files <- file.path(dir, samples$Sample, "quant.sf")
 all(file.exists(files))
 ```
@@ -90,7 +91,7 @@ names(txi)
 
 This is for setting up the meta data and DESeq2 object so that you can do your analysis 
 ```{r message= FALSE, warning= FALSE, echo=FALSE}
-sample_meta_data <- read.csv(file= "~/Desktop/Lab_RNASeq_Tutorial/meta_data.csv") #this is a DIFFERENT meta data file. Example in github. Include any information in this that you want to compare between samples
+sample_meta_data <- read.csv(file= "~/CHANGE PATH/meta_data.csv") #this is a DIFFERENT meta data file. Example in github. Include any information in this that you want to compare between samples
 sampleFiles <- samples$Sample
 sampleCondition <- sample_meta_data$Tumor..Normal  #this one you can change to whatever column you want in your meta data for comparisons 
 sampleTable <- data.frame(sampleName = sampleFiles,
